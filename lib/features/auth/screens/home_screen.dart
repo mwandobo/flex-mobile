@@ -1,11 +1,17 @@
 import 'package:flex_mobile/features/auth/service/auth_service.dart';
+import 'package:flex_mobile/features/indicator/indicator-list.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  Future<void> _logout(BuildContext context) async {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Future<void> _logout() async {
     final AuthService authService = AuthService();
     await authService.logout();
 
@@ -19,17 +25,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Indicators'),
         actions: [
           IconButton(
-            onPressed: () => _logout(context),
+            onPressed: _logout,
             icon: const Icon(Icons.logout),
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Welcome to the Home Screen!'),
-      ),
+      body: const IndicatorList(),
     );
   }
 }
