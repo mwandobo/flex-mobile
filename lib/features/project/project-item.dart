@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProjectListItem extends StatelessWidget {
   final String name;
   final String formattedCode;
-  final int status;
+  final String status;
 
   const ProjectListItem({
     Key? key,
@@ -15,23 +15,12 @@ class ProjectListItem extends StatelessWidget {
   // Status color and text based on status
   Color getStatusColor() {
     switch (status) {
-      case 0:
-        return Colors.red;
-      case 1:
+      case "pending":
+        return Colors.grey;
+      case "completed":
         return Colors.green;
       default:
         return Colors.grey;
-    }
-  }
-
-  String getStatusText() {
-    switch (status) {
-      case 0:
-        return 'Inactive';
-      case 1:
-        return 'Active';
-      default:
-        return 'Unknown';
     }
   }
 
@@ -77,7 +66,7 @@ class ProjectListItem extends StatelessWidget {
               ),
             ),
             Text(
-              getStatusText(),
+              status,
               style: TextStyle(
                 fontSize: 14,
                 color: getStatusColor(),

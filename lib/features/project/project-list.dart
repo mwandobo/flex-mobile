@@ -1,3 +1,4 @@
+import 'package:flex_mobile/features/project/project-detail-screen.dart';
 import 'package:flex_mobile/features/project/project-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -64,16 +65,26 @@ class _ProjectListState extends State<ProjectList> {
     if (errorMessage != null) {
       return Center(child: Text(errorMessage!));
     }
-
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
       itemCount: projects.length,
       itemBuilder: (context, index) {
         final project = projects[index];
-        return ProjectListItem(
-          name: project['name'] ?? "def name",
-          formattedCode: project['formatted_code'] ?? "def code",
-          status: project['status'] ?? "def project",
+        return GestureDetector(
+          onTap: () {
+            // Navigate to the project detail screen when the item is tapped.
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProjectDetailScreen(project: project),
+              ),
+            );
+          },
+          child: ProjectListItem(
+            name: project['name'] ?? "def name",
+            formattedCode: project['code'] ?? "def code",
+            status: project['status'] ?? "def project",
+          ),
         );
       },
     );

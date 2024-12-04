@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class IndicatorListItem extends StatelessWidget {
   final String name;
   final String formattedCode;
-  final int status;
+  final String status;
 
   const IndicatorListItem({
     Key? key,
@@ -15,9 +15,9 @@ class IndicatorListItem extends StatelessWidget {
   // Status color and text based on status
   Color getStatusColor() {
     switch (status) {
-      case 0:
-        return Colors.red;
-      case 1:
+      case "pending":
+        return Colors.grey;
+      case "onprogress":
         return Colors.green;
       default:
         return Colors.grey;
@@ -25,14 +25,7 @@ class IndicatorListItem extends StatelessWidget {
   }
 
   String getStatusText() {
-    switch (status) {
-      case 0:
-        return 'Inactive';
-      case 1:
-        return 'Active';
-      default:
-        return 'Unknown';
-    }
+    return status;
   }
 
   @override
