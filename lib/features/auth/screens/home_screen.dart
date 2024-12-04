@@ -1,5 +1,5 @@
 import 'package:flex_mobile/features/auth/service/auth_service.dart';
-import 'package:flex_mobile/features/indicator/indicator-list.dart';
+import 'package:flex_mobile/features/project/project-list.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Indicators'),
+        title: const Text('Home'),
         actions: [
           IconButton(
             onPressed: _logout,
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: const IndicatorList(),
+      body: const ProjectList(),
     );
   }
 }
