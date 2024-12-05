@@ -1,0 +1,80 @@
+import 'package:flex_mobile/features/resource/resource-item.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../auth/service/auth_service.dart';
+
+class ResourceList extends StatefulWidget {
+  const ResourceList({Key? key}) : super(key: key);
+
+  @override
+  _ResourceListState createState() => _ResourceListState();
+}
+
+class _ResourceListState extends State<ResourceList> {
+  List<dynamic> resources = [];
+  bool isLoading = true;
+  String? errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchResources();
+  }
+
+  Future<void> _fetchResources() async {
+    final url =
+        Uri.parse('http://10.0.2.2:8000/api/resource'); // Adjust the URL
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${await AuthService().getToken()}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          resources = data['data'];
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+          errorMessage = "Error: ${response.statusCode}";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        errorMessage = "Error fetching resources: $e";
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (errorMessage != null) {
+      return Center(child: Text(errorMessage!));
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(8.0),
+      itemCount: resources.length,
+      itemBuilder: (context, index) {
+        final resource = resources[index];
+        return ResourceListItem(
+          name: resource['name'] ?? 'N/A',
+          quantity: resource['quantity'] ?? 0,
+          status: resource['status'] ?? 'N/A',
+        );
+      },
+    );
+  }
+}
