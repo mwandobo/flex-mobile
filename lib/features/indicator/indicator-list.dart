@@ -1,3 +1,4 @@
+import 'package:flex_mobile/features/indicator/indicator-details-screen.dart';
 import 'package:flex_mobile/features/indicator/indicator-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -69,10 +70,22 @@ class _IndicatorListState extends State<IndicatorList> {
       itemCount: indicators.length,
       itemBuilder: (context, index) {
         final indicator = indicators[index];
-        return IndicatorListItem(
-          name: indicator['name'],
-          formattedCode: indicator['formatted_code'],
-          status: indicator['status'],
+        return GestureDetector(
+          onTap: () {
+            // Navigate to the detail screen with the selected indicator.
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    IndicatorDetailScreen(indicator: indicator),
+              ),
+            );
+          },
+          child: IndicatorListItem(
+            name: indicator['name'] ?? 'N/A',
+            formattedCode: indicator['formatted_code'] ?? 'N/A',
+            status: indicator['status'] ?? 'N/A',
+          ),
         );
       },
     );
