@@ -1,4 +1,4 @@
-import 'package:flex_mobile/features/project/project-detail-screen.dart';
+import 'package:flex_mobile/features/project/project-card-screen.dart';
 import 'package:flex_mobile/features/project/project-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -76,7 +76,7 @@ class _ProjectListState extends State<ProjectList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProjectDetailScreen(project: project),
+                builder: (context) => ProjectCardScreen(project: project),
               ),
             );
           },
