@@ -31,10 +31,17 @@ class IndicatorListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      elevation: 2.0, // Slight shadow for better emphasis
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0), // Reduced border radius
+        side: BorderSide(
+          color: Colors.grey.shade300, // Subtle border color
+          width: 1.0, // Reduced border size
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

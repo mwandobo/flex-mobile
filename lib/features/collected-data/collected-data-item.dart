@@ -3,44 +3,60 @@ import 'package:flutter/material.dart';
 class CollectedDataListItem extends StatelessWidget {
   final String quantity;
   final String description;
+  final int index; // New property to hold the index (numbering)
 
   const CollectedDataListItem({
     Key? key,
     required this.quantity,
     required this.description,
+    required this.index, // Add index parameter to show numbering
   }) : super(key: key);
-
-  // Status color and text based on status
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      elevation: 2.0, // Slight shadow for better emphasis
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0), // Reduced border radius
+        side: BorderSide(
+          color: Colors.grey.shade300, // Subtle border color
+          width: 1.0, // Reduced border size
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: 12,
-              height: 12,
-              margin: const EdgeInsets.only(right: 12.0),
-              decoration: const BoxDecoration(
-                color: Colors.grey,
-                shape: BoxShape.circle,
+            Text(
+              '$index.', // Display the index (numbering) at the start
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(width: 8), // Spacing between number and content
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    quantity,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Quantity: ', // Label for quantity
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        quantity,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 4),
                   Text(

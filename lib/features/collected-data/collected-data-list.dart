@@ -175,6 +175,7 @@ class _CollectedDataListState extends State<CollectedDataList> {
                             final collectedData = collectedDatas[index];
                             return GestureDetector(
                               child: CollectedDataListItem(
+                                index: index + 1, // Pass the index as 1-based
                                 quantity: collectedData['quantity'] ?? 'N/A',
                                 description:
                                     collectedData['description'] ?? 'N/A',
