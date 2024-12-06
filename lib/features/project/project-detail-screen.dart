@@ -1,4 +1,4 @@
-import 'package:flex_mobile/features/indicator/indicator-list.dart';
+import 'package:flex_mobile/features/project/project-card-screen.dart';
 import 'package:flutter/material.dart';
 
 class ProjectDetailScreen extends StatelessWidget {
@@ -30,9 +30,7 @@ class ProjectDetailScreen extends StatelessWidget {
             const SizedBox(height: 20),
             const Divider(),
             const SizedBox(height: 10),
-            Text('Indicators:', style: Theme.of(context).textTheme.headline6),
-            const SizedBox(height: 10),
-            const Expanded(child: IndicatorList()),
+            Expanded(child: ProjectCardScreen(project: project)),
           ],
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flex_mobile/core/constants/app.dart';
-import 'package:flex_mobile/features/project/project-card-screen.dart';
+import 'package:flex_mobile/features/project/project-detail-screen.dart';
 import 'package:flex_mobile/features/project/project-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -137,7 +137,7 @@ class _ProjectListState extends State<ProjectList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ProjectCardScreen(project: project),
+                              ProjectDetailScreen(project: project),
                         ),
                       );
                     },
