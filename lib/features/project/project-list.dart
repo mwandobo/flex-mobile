@@ -1,3 +1,4 @@
+import 'package:flex_mobile/core/constants/app.dart';
 import 'package:flex_mobile/features/project/project-card-screen.dart';
 import 'package:flex_mobile/features/project/project-item.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _ProjectListState extends State<ProjectList> {
   }
 
   Future<void> _fetchProjects() async {
-    final url = Uri.parse('http://10.0.2.2:8000/api/project');
+    final url = Uri.parse('${AppConstants.baseUrl}project');
     try {
       final response = await http.get(
         url,
