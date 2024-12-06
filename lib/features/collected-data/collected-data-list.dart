@@ -141,51 +141,61 @@ class _CollectedDataListState extends State<CollectedDataList> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Collected Data List'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                setState(() {
-                  isAdding = !isAdding;
-                });
-              },
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            if (isAdding)
-              Expanded(
-                child: SingleChildScrollView(
-                  child: _buildAddForm(),
-                ),
-              ),
-            Expanded(
-              child: isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : errorMessage != null
-                      ? Center(child: Text(errorMessage!))
-                      : ListView.builder(
-                          padding: const EdgeInsets.all(8.0),
-                          itemCount: collectedDatas.length,
-                          itemBuilder: (context, index) {
-                            final collectedData = collectedDatas[index];
-                            return GestureDetector(
-                              child: CollectedDataListItem(
-                                index: index + 1, // Pass the index as 1-based
-                                quantity: collectedData['quantity'] ?? 'N/A',
-                                description:
-                                    collectedData['description'] ?? 'N/A',
-                              ),
-                            );
-                          },
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft, // Align text to the left
+            child: Padding(
+                padding: const EdgeInsets.only(left: 8.0), // Add left padding
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment
+                        .spaceBetween, // Space between the items
+                    children: [
+                      const Text(
+                        "Collected Data",
+                        style: TextStyle(
+                          fontSize: 16, // Reduced sizew
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            isAdding = !isAdding;
+                          });
+                        },
+                      ),
+                    ])),
+          ),
+          if (isAdding)
+            Expanded(
+              child: SingleChildScrollView(
+                child: _buildAddForm(),
+              ),
             ),
-          ],
-        ),
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : errorMessage != null
+                    ? Center(child: Text(errorMessage!))
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(8.0),
+                        itemCount: collectedDatas.length,
+                        itemBuilder: (context, index) {
+                          final collectedData = collectedDatas[index];
+                          return GestureDetector(
+                            child: CollectedDataListItem(
+                              index: index + 1, // Pass the index as 1-based
+                              quantity: collectedData['quantity'] ?? 'N/A',
+                              description:
+                                  collectedData['description'] ?? 'N/A',
+                            ),
+                          );
+                        },
+                      ),
+          ),
+        ],
       ),
     );
   }

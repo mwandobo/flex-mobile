@@ -33,7 +33,7 @@ class CollectedDataListItem extends StatelessWidget {
               '$index.', // Display the index (numbering) at the start
               style: const TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(width: 8), // Spacing between number and content
@@ -47,24 +47,34 @@ class CollectedDataListItem extends StatelessWidget {
                         'Quantity: ', // Label for quantity
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         quantity,
                         style: const TextStyle(
                           fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    "Description: $description",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Description: ', // Label for quantity
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        description,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

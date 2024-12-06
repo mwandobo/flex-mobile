@@ -25,24 +25,14 @@ class IndicatorDetailScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text('Code: ${indicator['formatted_code'] ?? 'N/A'}'),
-              Text('Status: ${indicator['status'] ?? 'N/A'}'),
-              const SizedBox(height: 20),
-              const Divider(),
-              Text(
-                'Additional Details:',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              const SizedBox(height: 10),
               Text(
                 'Description: ${indicator['description'] ?? 'No description'}',
               ),
-              Text('Created At: ${indicator['created_at'] ?? 'N/A'}'),
-              Text('Updated At: ${indicator['updated_at'] ?? 'N/A'}'),
+              Text('Status: ${indicator['status'] ?? 'N/A'}'),
+              Text('Created At: ${indicator['formatted_created_at'] ?? 'N/A'}'),
               const SizedBox(height: 20),
               const Divider(),
-
               const SizedBox(height: 10),
-              // CollectedDataList wrapped in ConstrainedBox to fit within scrollable view
               ConstrainedBox(
                 constraints: BoxConstraints(
                   maxHeight:
