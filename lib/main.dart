@@ -1,6 +1,6 @@
+import 'package:flex_mobile/features/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'features/auth/screens/home_screen.dart';
 import 'features/auth/screens/login_screen.dart';
 
 void main() {

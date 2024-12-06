@@ -1,7 +1,7 @@
 import 'package:flex_mobile/core/widgets/custom_text_field.dart';
 import 'package:flex_mobile/features/auth/service/auth_service.dart';
+import 'package:flex_mobile/features/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
+import 'package:flex_mobile/features/auth/screens/login_screen.dart';
 import 'package:flex_mobile/features/auth/service/auth_service.dart';
 import 'package:flex_mobile/features/project/project-list.dart';
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
