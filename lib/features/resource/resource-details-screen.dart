@@ -1,4 +1,4 @@
-import 'package:flex_mobile/features/collected-data/collected-data-list.dart';
+import 'package:flex_mobile/features/collected-data-cost/collected-data-cost-list.dart';
 import 'package:flutter/material.dart';
 
 class ResourceDetailScreen extends StatelessWidget {
@@ -21,12 +21,15 @@ class ResourceDetailScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min, // Allow column to adjust height
             children: [
               Text(
-                'Name: ${resource['name'] ?? 'N/A'}',
+                'Name: ${resource['resource_name'] ?? 'N/A'}',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              Text('Code: ${resource['formatted_code'] ?? 'N/A'}'),
+              Text('Resource Type: ${resource['resource_type_name'] ?? 'N/A'}'),
               Text(
-                'Description: ${resource['description'] ?? 'No description'}',
+                'Amount: ${resource['amount'] ?? 'No description'}',
+              ),
+              Text(
+                'Quantity: ${resource['quantity'] ?? 'No description'}',
               ),
               Text('Status: ${resource['status'] ?? 'N/A'}'),
               Text('Created At: ${resource['formatted_created_at'] ?? 'N/A'}'),
@@ -38,7 +41,10 @@ class ResourceDetailScreen extends StatelessWidget {
                   maxHeight:
                       MediaQuery.of(context).size.height * 0.6, // Limit height
                 ),
-                child: CollectedDataList(indicator: resource),
+                child: CollectedDataCostList(
+                  indicator: resource,
+                  costType: 'resource_cost',
+                ),
               ),
             ],
           ),

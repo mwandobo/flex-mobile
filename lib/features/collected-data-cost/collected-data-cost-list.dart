@@ -1,21 +1,23 @@
-import 'package:flex_mobile/features/collected-data/collected-data-item.dart';
+import 'package:flex_mobile/features/collected-data-cost/collected-data-cost-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../auth/service/auth_service.dart';
 
-class CollectedDataList extends StatefulWidget {
+class CollectedDataCostList extends StatefulWidget {
   final dynamic indicator;
+  final String costType;
 
-  const CollectedDataList({Key? key, required this.indicator})
+  const CollectedDataCostList(
+      {Key? key, required this.indicator, required this.costType})
       : super(key: key);
 
   @override
-  _CollectedDataListState createState() => _CollectedDataListState();
+  _CollectedDataCostListState createState() => _CollectedDataCostListState();
 }
 
-class _CollectedDataListState extends State<CollectedDataList> {
-  final TextEditingController _quantityController = TextEditingController();
+class _CollectedDataCostListState extends State<CollectedDataCostList> {
+  final TextEditingController _amountController = TextEditingController();
 
   List<dynamic> collectedDatas = [];
   bool isLoading = true;
@@ -31,10 +33,12 @@ class _CollectedDataListState extends State<CollectedDataList> {
   }
 
   Future<void> _fetchCollectedDatas() async {
+    final costType = widget.costType;
     final indicatorId = widget.indicator['id'];
 
     final queryParameters = {
       'indicator_id': indicatorId.toString(), // Use `indicatorId` otherwise
+      'cost_type': costType, // Add `cost_type` only if provided
     };
 
     final url =
@@ -70,12 +74,16 @@ class _CollectedDataListState extends State<CollectedDataList> {
   }
 
   Future<void> _addCollectedData() async {
+    final activityId = widget.indicator['for_id'];
     final indicatorId = widget.indicator['id'];
+    final costType = widget.costType;
 
     final url = Uri.parse('http://10.0.2.2:8000/api/collected_data');
     final body = jsonEncode({
-      'quantity': _quantityController.text,
-      'indicator_id': indicatorId,
+      'amount': _amountController.text,
+      'from': costType,
+      'from_id': indicatorId,
+      'indicator_id': activityId,
     });
 
     try {
@@ -91,7 +99,7 @@ class _CollectedDataListState extends State<CollectedDataList> {
       if (response.statusCode == 200) {
         setState(() {
           isAdding = false;
-          _quantityController.clear();
+          _amountController.clear();
           _fetchCollectedDatas();
         });
       } else {
@@ -109,7 +117,7 @@ class _CollectedDataListState extends State<CollectedDataList> {
   Future<void> _editCollectedData(int id) async {
     final url = Uri.parse('http://10.0.2.2:8000/api/collected_data/$id');
     final body = jsonEncode({
-      'quantity': _quantityController.text,
+      'amount': _amountController.text,
     });
 
     try {
@@ -125,7 +133,7 @@ class _CollectedDataListState extends State<CollectedDataList> {
       if (response.statusCode == 200) {
         setState(() {
           isEditing = false;
-          _quantityController.clear();
+          _amountController.clear();
           editingIndex = null;
           _fetchCollectedDatas();
         });
@@ -210,9 +218,9 @@ class _CollectedDataListState extends State<CollectedDataList> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
-            controller: _quantityController,
+            controller: _amountController,
             decoration: const InputDecoration(
-              labelText: 'Quantity',
+              labelText: 'Amount',
               border: OutlineInputBorder(),
             ),
           ),
@@ -273,14 +281,14 @@ class _CollectedDataListState extends State<CollectedDataList> {
                         itemCount: collectedDatas.length,
                         itemBuilder: (context, index) {
                           final collectedData = collectedDatas[index];
-                          return CollectedDataListItem(
+                          return CollectedDataCostListItem(
                             index: index + 1,
-                            quantity: collectedData['quantity'],
+                            amount: collectedData['amount'],
                             onEdit: () {
                               setState(() {
                                 isEditing = true;
-                                _quantityController.text =
-                                    collectedData['quantity'].toString();
+                                _amountController.text =
+                                    collectedData['amount'];
                                 editingIndex = index;
                                 isAdding = false;
                               });

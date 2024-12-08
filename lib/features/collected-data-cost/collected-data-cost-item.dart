@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class CollectedDataListItem extends StatelessWidget {
-  final dynamic quantity;
+class CollectedDataCostListItem extends StatelessWidget {
+  final dynamic amount;
   final int index;
   final Function onEdit;
   final Function onDelete;
 
-  const CollectedDataListItem({
+  const CollectedDataCostListItem({
     Key? key,
-    this.quantity,
+    this.amount,
     required this.index,
     required this.onEdit,
     required this.onDelete,
@@ -44,16 +44,16 @@ class CollectedDataListItem extends StatelessWidget {
                       Row(
                         children: [
                           const Text(
-                            'Quantity: ',
+                            'Amount: ',
                             style: TextStyle(fontSize: 16),
                           ),
                           Text(
-                            quantity!,
+                            amount!,
                             style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),

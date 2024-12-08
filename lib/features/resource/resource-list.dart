@@ -100,9 +100,11 @@ class _ResourceListState extends State<ResourceList> {
                                 );
                               },
                               child: ResourceListItem(
-                                name: resource['name'] ?? 'N/A',
+                                name: resource['resource_name'] ?? 'N/A',
                                 quantity: resource['quantity'] ?? 0,
+                                amount: resource['amount'] ?? 0,
                                 status: resource['status'] ?? 'N/A',
+                                index: index + 1,
                               ));
                         },
                       ),
