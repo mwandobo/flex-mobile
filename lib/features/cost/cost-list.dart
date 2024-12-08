@@ -1,3 +1,4 @@
+import 'package:flex_mobile/features/cost/cost-details-screen.dart';
 import 'package:flex_mobile/features/cost/cost-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -25,8 +26,8 @@ class _CostListState extends State<CostList> {
 
   Future<void> _fetchCosts() async {
     var projectId = widget.projectId;
-    final url = Uri.parse(
-        'http://10.0.2.2:8000/api/cost?project_id=$projectId'); // Adjust the URL
+    final url =
+        Uri.parse('http://10.0.2.2:8000/api/cost?project_id=$projectId');
     try {
       final response = await http.get(
         url,
@@ -58,25 +59,56 @@ class _CostListState extends State<CostList> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (errorMessage != null) {
-      return Center(child: Text(errorMessage!));
-    }
-
-    return ListView.builder(
-      padding: const EdgeInsets.all(8.0),
-      itemCount: costs.length,
-      itemBuilder: (context, index) {
-        final cost = costs[index];
-        return CostListItem(
-          description: cost['description'] ?? 'N/A',
-          amount: cost['amount'] ?? '0.0',
-          category: cost['category'] ?? 'N/A',
-        );
-      },
+    return SafeArea(
+      child: Column(
+        children: [
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Costs",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ])),
+          ),
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : errorMessage != null
+                    ? Center(child: Text(errorMessage!))
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(8.0),
+                        itemCount: costs.length,
+                        itemBuilder: (context, index) {
+                          final cost = costs[index];
+                          return GestureDetector(
+                              onTap: () {
+                                // Navigate to the detail screen with the selected indicator.
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        CostDetailScreen(cost: cost),
+                                  ),
+                                );
+                              },
+                              child: CostListItem(
+                                description: cost['description'] ?? 'N/A',
+                                amount: cost['amount'] ?? '0.0',
+                                category: cost['category'] ?? 'N/A',
+                              ));
+                        },
+                      ),
+          ),
+        ],
+      ),
     );
   }
 }

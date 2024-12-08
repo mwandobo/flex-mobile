@@ -4,16 +4,12 @@ class ResourceListItem extends StatelessWidget {
   final String name;
   final int quantity;
   final String status;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
 
   const ResourceListItem({
     Key? key,
     required this.name,
     required this.quantity,
     required this.status,
-    required this.onEdit,
-    required this.onDelete,
   }) : super(key: key);
 
   Color getStatusColor() {
@@ -75,16 +71,6 @@ class ResourceListItem extends StatelessWidget {
                 color: getStatusColor(),
                 fontWeight: FontWeight.bold,
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: onEdit,
-              color: Colors.blue,
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: onDelete,
-              color: Colors.red,
             ),
           ],
         ),

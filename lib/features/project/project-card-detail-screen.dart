@@ -44,16 +44,6 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.project['name'] ?? "Project Details"),
-        bottom: widget.title.toLowerCase() == 'activity'
-            ? TabBar(
-                controller: _tabController,
-                tabs: const [
-                  Tab(text: 'Indicators'),
-                  Tab(text: 'Resources'),
-                  Tab(text: 'Costs'),
-                ],
-              )
-            : null,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,7 +59,15 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
             const SizedBox(height: 20),
             const Divider(),
             const SizedBox(height: 10),
-            if (widget.title.toLowerCase() == 'activity')
+            if (widget.title.toLowerCase() == 'activity') ...[
+              TabBar(
+                controller: _tabController,
+                tabs: const [
+                  Tab(text: 'Indicators'),
+                  Tab(text: 'Resources'),
+                  Tab(text: 'Costs'),
+                ],
+              ),
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
@@ -79,19 +77,12 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
                     CostList(projectId: widget.project['project_id']),
                   ],
                 ),
-              )
-            else
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Indicators:',
-                        style: Theme.of(context).textTheme.headline6),
-                    const SizedBox(height: 10),
-                    const Expanded(child: IndicatorList()),
-                  ],
-                ),
               ),
+            ] else ...[
+              Text('Indicators:', style: Theme.of(context).textTheme.headline6),
+              const SizedBox(height: 10),
+              const Expanded(child: IndicatorList()),
+            ],
           ],
         ),
       ),
