@@ -1,4 +1,4 @@
-import 'package:flex_mobile/features/collected-data/collected-data-list.dart';
+import 'package:flex_mobile/features/collected-data-cost/collected-data-cost-list.dart';
 import 'package:flutter/material.dart';
 
 class CostDetailScreen extends StatelessWidget {
@@ -23,10 +23,7 @@ class CostDetailScreen extends StatelessWidget {
                 'Name: ${cost['name'] ?? 'N/A'}',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              Text('Code: ${cost['formatted_code'] ?? 'N/A'}'),
-              Text(
-                'Description: ${cost['description'] ?? 'No description'}',
-              ),
+              Text('Amount: ${cost['amount'] ?? 'N/A'}'),
               Text('Status: ${cost['status'] ?? 'N/A'}'),
               Text('Created At: ${cost['formatted_created_at'] ?? 'N/A'}'),
               const SizedBox(height: 20),
@@ -37,7 +34,10 @@ class CostDetailScreen extends StatelessWidget {
                   maxHeight:
                       MediaQuery.of(context).size.height * 0.6, // Limit height
                 ),
-                child: CollectedDataList(indicator: cost),
+                child: CollectedDataCostList(
+                  indicator: cost,
+                  costType: 'direct_cost',
+                ),
               ),
             ],
           ),

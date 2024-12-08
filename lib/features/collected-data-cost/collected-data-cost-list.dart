@@ -74,7 +74,8 @@ class _CollectedDataCostListState extends State<CollectedDataCostList> {
   }
 
   Future<void> _addCollectedData() async {
-    final activityId = widget.indicator['for_id'];
+    final activityId =
+        widget.indicator['for_id'] ?? widget.indicator['from_id'];
     final indicatorId = widget.indicator['id'];
     final costType = widget.costType;
 
@@ -150,7 +151,8 @@ class _CollectedDataCostListState extends State<CollectedDataCostList> {
   }
 
   Future<void> _deleteCollectedData(int id) async {
-    final url = Uri.parse('http://10.0.2.2:8000/api/collected_data/$id');
+    final url =
+        Uri.parse('http://10.0.2.2:8000/api/collected_data/$id?type=occur');
 
     try {
       final response = await http.delete(

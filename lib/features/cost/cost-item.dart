@@ -1,61 +1,96 @@
 import 'package:flutter/material.dart';
 
 class CostListItem extends StatelessWidget {
-  final String description;
-  final String amount;
-  final String category;
+  final String name;
+  final dynamic amount;
+  final String status;
+  final int index;
 
   const CostListItem({
     Key? key,
-    required this.description,
+    required this.name,
     required this.amount,
-    required this.category,
+    required this.status,
+    required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      elevation: 2.0, // Slight shadow for better emphasis
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0), // Reduced border radius
+        side: BorderSide(
+          color: Colors.grey.shade300, // Subtle border color
+          width: 1.0, // Reduced border size
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Information Column
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '$index.',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "Amount: $amount",
+                ),
+                const SizedBox(width: 8.0),
+                Expanded(
+                  child: Text(
+                    name,
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      fontWeight: FontWeight.w600,
                     ),
+                    overflow:
+                        TextOverflow.ellipsis, // Truncate text if it overflows
+                    maxLines: 1, // Ensure the name fits in one line
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "Category: $category",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
+                ),
+                Text(
+                  status,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    // color: statusColor,
                   ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4.0), // Space between name and other details
+
+            // Wrap the details row to allow them to wrap to a new line
+            Align(
+              alignment:
+                  Alignment.centerRight, // Align all children to the right
+              child: Wrap(
+                spacing: 8.0, // Space between details
+                children: [
+                  _buildDetailText('Amount: $amount'),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  // Helper function to avoid code repetition for styling text
+  Widget _buildDetailText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 12, // Smaller font size for project details
+        color: Colors.grey[600],
+      ),
+      overflow: TextOverflow.ellipsis, // Ensures no overflow
     );
   }
 }

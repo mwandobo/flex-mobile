@@ -100,9 +100,10 @@ class _CostListState extends State<CostList> {
                                 );
                               },
                               child: CostListItem(
-                                description: cost['description'] ?? 'N/A',
+                                name: cost['name'] ?? 'N/A',
                                 amount: cost['amount'] ?? '0.0',
-                                category: cost['category'] ?? 'N/A',
+                                index: index + 1,
+                                status: cost['status'],
                               ));
                         },
                       ),
