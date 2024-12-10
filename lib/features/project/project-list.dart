@@ -137,7 +137,7 @@ class _ProjectListState extends State<ProjectList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ProjectDetailScreen(project: project),
+                              ProjectDetailScreen(projectId: project['id']),
                         ),
                       );
                     },

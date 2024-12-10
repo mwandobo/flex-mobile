@@ -1,16 +1,25 @@
-import 'package:flex_mobile/features/project/project-card-list-screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flex_mobile/features/project/project-card-list-screen.dart';
 
 class ProjectCardScreen extends StatelessWidget {
-  final dynamic project;
+  final dynamic data;
 
-  const ProjectCardScreen({Key? key, required this.project}) : super(key: key);
+  const ProjectCardScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final project = data['project'];
     final projectId = project['id'];
-    final totalItems = project['total_items'] ??
-        0; // Assuming `total_items` is part of the project data
+
+    print('dataaa $data');
+    print('goals ${data['goals']}');
+    print('outcomes.............. ${data['outcomes']}');
+
+    // Extract totals for each category from project data
+    final totalGoals = (data['goals'] as List?)?.length ?? 0;
+    final totalOutcomes = (data['outcomes'] as List?)?.length ?? 0;
+    final totalOutputs = (data['outputs'] as List?)?.length ?? 0;
+    final totalActivities = (data['activities'] as List?)?.length ?? 0;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -29,7 +38,7 @@ class ProjectCardScreen extends StatelessWidget {
                   icon: Icons.flag_outlined,
                   color: Colors.blue,
                   projectId: projectId,
-                  totalItems: totalItems,
+                  totalItems: totalGoals,
                 ),
                 _buildCard(
                   context,
@@ -37,7 +46,7 @@ class ProjectCardScreen extends StatelessWidget {
                   icon: Icons.trending_up_outlined,
                   color: Colors.green,
                   projectId: projectId,
-                  totalItems: totalItems,
+                  totalItems: totalOutcomes,
                 ),
                 _buildCard(
                   context,
@@ -45,7 +54,7 @@ class ProjectCardScreen extends StatelessWidget {
                   icon: Icons.pie_chart_outline,
                   color: Colors.orange,
                   projectId: projectId,
-                  totalItems: totalItems,
+                  totalItems: totalOutputs,
                 ),
                 _buildCard(
                   context,
@@ -53,7 +62,7 @@ class ProjectCardScreen extends StatelessWidget {
                   icon: Icons.task_alt_outlined,
                   color: Colors.red,
                   projectId: projectId,
-                  totalItems: totalItems,
+                  totalItems: totalActivities,
                 ),
               ],
             ),
@@ -85,20 +94,18 @@ class ProjectCardScreen extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 2,
+        elevation: 4,
         child: Padding(
-          padding:
-              const EdgeInsets.all(12.0), // Reduced padding for smaller cards
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(icon, size: 40, color: color), // Reduced icon size
+              Icon(icon, size: 40, color: color),
               const SizedBox(height: 8),
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 16, // Reduced font size
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: color,
                 ),
