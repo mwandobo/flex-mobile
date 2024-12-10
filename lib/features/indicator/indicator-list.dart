@@ -6,7 +6,11 @@ import 'dart:convert';
 import '../auth/service/auth_service.dart';
 
 class IndicatorList extends StatefulWidget {
-  const IndicatorList({Key? key}) : super(key: key);
+  final dynamic from;
+  final dynamic fromId;
+
+  const IndicatorList({Key? key, required this.from, required this.fromId})
+      : super(key: key);
 
   @override
   _IndicatorListState createState() => _IndicatorListState();
@@ -24,8 +28,8 @@ class _IndicatorListState extends State<IndicatorList> {
   }
 
   Future<void> _fetchIndicators() async {
-    final url =
-        Uri.parse('http://10.0.2.2:8000/api/indicator'); // Adjust the URL
+    final url = Uri.parse(
+        'http://10.0.2.2:8000/api/indicator?from=${widget.from}&from_id=${widget.fromId}'); // Adjust the URL
     try {
       final response = await http.get(
         url,

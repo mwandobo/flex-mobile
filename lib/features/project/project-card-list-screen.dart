@@ -36,6 +36,13 @@ class _ListScreenState extends State<ListScreen> {
     'activities': 'Activity',
   };
 
+  final Map<String, String> _fromMap = {
+    'goals': 'goal',
+    'outcomes': 'outcome',
+    'outputs': 'output',
+    'activities': 'activity',
+  };
+
   @override
   void initState() {
     super.initState();
@@ -120,7 +127,9 @@ class _ListScreenState extends State<ListScreen> {
                                   project: item,
                                   title: _detailTittleMap[
                                           widget.title.toLowerCase()] ??
-                                      "Name"),
+                                      "Name",
+                                  from: _fromMap[widget.title.toLowerCase()] ??
+                                      ""),
                             ),
                           );
                         },

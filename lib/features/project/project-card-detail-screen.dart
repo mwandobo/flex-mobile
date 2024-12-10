@@ -2,15 +2,18 @@ import 'package:flex_mobile/features/cost/cost-list.dart';
 import 'package:flex_mobile/features/indicator/indicator-list.dart';
 import 'package:flex_mobile/features/resource/resource-list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ProjectCardDetailScreen extends StatefulWidget {
   final dynamic project;
   final String title;
+  final String from;
 
   const ProjectCardDetailScreen({
     Key? key,
     required this.project,
     required this.title,
+    required this.from,
   }) : super(key: key);
 
   @override
@@ -72,7 +75,8 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    const IndicatorList(),
+                    IndicatorList(
+                        from: widget.from, fromId: widget.project['id']),
                     const ResourceList(),
                     CostList(projectId: widget.project['project_id']),
                   ],
@@ -81,7 +85,9 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
             ] else ...[
               Text('Indicators:', style: Theme.of(context).textTheme.headline6),
               const SizedBox(height: 10),
-              const Expanded(child: IndicatorList()),
+              Expanded(
+                  child: IndicatorList(
+                      from: widget.from, fromId: widget.project['id'])),
             ],
           ],
         ),
