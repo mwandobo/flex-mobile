@@ -1,3 +1,4 @@
+import 'package:flex_mobile/core/constants/app.dart';
 import 'package:flex_mobile/features/indicator/indicator-details-screen.dart';
 import 'package:flex_mobile/features/indicator/indicator-item.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,15 @@ class _IndicatorListState extends State<IndicatorList> {
   }
 
   Future<void> _fetchIndicators() async {
+    final queryParameters = {
+      'from': widget.from.toString(), // Ensure it's a string
+      'from_id': widget.fromId.toString(), // En/ Use `indicatorId` otherwise
+    };
+
     final url = Uri.parse(
-        'http://10.0.2.2:8000/api/indicator?from=${widget.from}&from_id=${widget.fromId}'); // Adjust the URL
+        '${AppConstants.baseUrl}indicator?${Uri(queryParameters: queryParameters).query}');
+
+    // Adjust the URL
     try {
       final response = await http.get(
         url,

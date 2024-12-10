@@ -1,3 +1,4 @@
+import 'package:flex_mobile/core/constants/app.dart';
 import 'package:flex_mobile/features/collected-data/collected-data-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -37,8 +38,13 @@ class _CollectedDataListState extends State<CollectedDataList> {
       'indicator_id': indicatorId.toString(), // Use `indicatorId` otherwise
     };
 
-    final url =
-        Uri.http('10.0.2.2:8000', '/api/collected_data', queryParameters);
+    // final url =
+    // Uri.http('10.0.2.2:8000', '/api/collected_data', queryParameters);
+
+    final url = Uri.parse(
+        '${AppConstants.baseUrl}collected_data?${Uri(queryParameters: queryParameters).query}');
+
+    // Uri url = Uri.parse('$baseUrl?${Uri(queryParameters: queryParameters).query}');
 
     try {
       final response = await http.get(

@@ -1,3 +1,4 @@
+import 'package:flex_mobile/core/constants/app.dart';
 import 'package:flex_mobile/features/resource/resource-details-screen.dart';
 import 'package:flex_mobile/features/resource/resource-item.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,11 @@ import 'dart:convert';
 import '../auth/service/auth_service.dart';
 
 class ResourceList extends StatefulWidget {
-  const ResourceList({Key? key}) : super(key: key);
+  final dynamic from;
+  final dynamic fromId;
+
+  const ResourceList({Key? key, required this.from, required this.fromId})
+      : super(key: key);
 
   @override
   _ResourceListState createState() => _ResourceListState();
@@ -24,8 +29,13 @@ class _ResourceListState extends State<ResourceList> {
   }
 
   Future<void> _fetchResources() async {
-    final url =
-        Uri.parse('http://10.0.2.2:8000/api/resource'); // Adjust the URL
+    final queryParameters = {
+      'for': widget.from.toString(), // Use `indicatorId` otherwise
+      'for_id': widget.fromId.toString(), // Use `indicatorId` otherwise
+    };
+
+    final url = Uri.parse(
+        '${AppConstants.baseUrl}resource?${Uri(queryParameters: queryParameters).query}');
     try {
       final response = await http.get(
         url,

@@ -77,7 +77,8 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
                   children: [
                     IndicatorList(
                         from: widget.from, fromId: widget.project['id']),
-                    const ResourceList(),
+                    ResourceList(
+                        from: widget.from, fromId: widget.project['id']),
                     CostList(projectId: widget.project['project_id']),
                   ],
                 ),

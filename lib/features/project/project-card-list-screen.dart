@@ -63,8 +63,6 @@ class _ListScreenState extends State<ListScreen> {
     final String url =
         '${AppConstants.baseUrl}$endpoint?project_id=${widget.projectId}';
 
-    print('Fetching data from: $url'); // Log the URL being called
-
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -73,9 +71,6 @@ class _ListScreenState extends State<ListScreen> {
           'Authorization': 'Bearer ${await AuthService().getToken()}'
         },
       );
-
-      print('Response status: ${response.statusCode}'); // Log the status code
-      print('Response body: ${response.body}'); // Log the response body
 
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);

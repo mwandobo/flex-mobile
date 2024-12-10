@@ -11,10 +11,6 @@ class ProjectCardScreen extends StatelessWidget {
     final project = data['project'];
     final projectId = project['id'];
 
-    print('dataaa $data');
-    print('goals ${data['goals']}');
-    print('outcomes.............. ${data['outcomes']}');
-
     // Extract totals for each category from project data
     final totalGoals = (data['goals'] as List?)?.length ?? 0;
     final totalOutcomes = (data['outcomes'] as List?)?.length ?? 0;

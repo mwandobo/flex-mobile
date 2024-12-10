@@ -1,13 +1,11 @@
 import 'dart:convert';
+import 'package:flex_mobile/core/constants/app.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String _baseUrl =
-      "http://10.0.2.2:8000/api"; // Replace with your API URL
-
   Future<bool> login(String email, String password) async {
-    final url = Uri.parse('$_baseUrl/login');
+    final url = Uri.parse('${AppConstants.baseUrl}login');
 
     try {
       final response = await http.post(

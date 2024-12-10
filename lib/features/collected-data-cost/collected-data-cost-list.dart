@@ -1,3 +1,4 @@
+import 'package:flex_mobile/core/constants/app.dart';
 import 'package:flex_mobile/features/collected-data-cost/collected-data-cost-item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -41,8 +42,8 @@ class _CollectedDataCostListState extends State<CollectedDataCostList> {
       'cost_type': costType, // Add `cost_type` only if provided
     };
 
-    final url =
-        Uri.http('10.0.2.2:8000', '/api/collected_data', queryParameters);
+    final url = Uri.parse(
+        '${AppConstants.baseUrl}collected_data?${Uri(queryParameters: queryParameters).query}');
 
     try {
       final response = await http.get(
