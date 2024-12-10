@@ -2,7 +2,6 @@ import 'package:flex_mobile/features/cost/cost-list.dart';
 import 'package:flex_mobile/features/indicator/indicator-list.dart';
 import 'package:flex_mobile/features/resource/resource-list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProjectCardDetailScreen extends StatefulWidget {
   final dynamic project;
