@@ -19,17 +19,17 @@ class AuthService {
         }),
       );
 
-      print("Response body: ${response.body}");
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
         // Assuming the API returns a token on successful login
         final token = data['user']['token'];
+        final id = data['user']['id'];
 
         // Save token in SharedPreferences to persist login state
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setInt('userId', id);
         await prefs.setBool('isLoggedIn', true);
 
         return true;
@@ -52,5 +52,10 @@ class AuthService {
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
+  }
+
+  Future<int?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
   }
 }
