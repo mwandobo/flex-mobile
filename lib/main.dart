@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CheckAuthScreen(), // Check Auth on App Start
+      home: const CheckAuthScreen(),
     );
   }
 }

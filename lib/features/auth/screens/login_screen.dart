@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isLoading = false;
+  bool _rememberMe = false; // Make sure this is in your State class
   String? _errorMessage;
 
   Future<void> _login() async {
@@ -49,44 +50,114 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomTextField(
-              controller: _emailController,
-              hintText: 'Enter your email',
-              prefixIcon: Icons.email,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: _passwordController,
-              hintText: 'Enter your password',
-              prefixIcon: Icons.lock,
-              obscureText: true,
-            ),
-            const SizedBox(height: 24),
-            if (_isLoading) ...[
-              const CircularProgressIndicator(),
-            ] else ...[
-              ElevatedButton(
-                onPressed: _login,
-                child: const Text('Login'),
-              ),
-            ],
-            if (_errorMessage != null) ...[
-              const SizedBox(height: 16),
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ],
-          ],
+      backgroundColor: const Color(0xFF0C55D7),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF0C55D7),
+        elevation: 0,
+        centerTitle: true,
+        title: Image.asset(
+          'assets/logo.png', // Replace with your actual image path
+          height: 40, // Adjust size as needed
         ),
       ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Container(
+                  color: const Color(0xFF0C55D7),
+                  padding: const EdgeInsets.only(top: 120.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Welcome Back 👋',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Please login to continue',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        CustomTextField(
+                          controller: _emailController,
+                          hintText: 'Enter your email',
+                          prefixIcon: Icons.email,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          controller: _passwordController,
+                          hintText: 'Enter your password',
+                          prefixIcon: Icons.lock,
+                          obscureText: true,
+                        ),
+                        // ... rest of your UI ...
+                        const SizedBox(height: 24),
+                        if (_isLoading)
+                          const CircularProgressIndicator()
+                        else
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _login,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF0C55D7),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Text(
+                                  'Log In',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (_errorMessage != null) ...[
+                          const SizedBox(height: 16),
+                          Text(
+                            _errorMessage!,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+
+
+
+
     );
   }
 }
