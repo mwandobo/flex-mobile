@@ -77,7 +77,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         children: [
                           Text(
                             'Name: ${project!['name'] ?? "N/A"}',
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 8),
                           Text('Code: ${project!['code'] ?? "N/A"}'),

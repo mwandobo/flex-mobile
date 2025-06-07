@@ -22,7 +22,7 @@ class IndicatorDetailScreen extends StatelessWidget {
             children: [
               Text(
                 'Name: ${indicator['name'] ?? 'N/A'}',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               Text('Code: ${indicator['formatted_code'] ?? 'N/A'}'),
               Text(

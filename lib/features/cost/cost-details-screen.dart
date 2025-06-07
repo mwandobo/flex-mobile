@@ -21,7 +21,7 @@ class CostDetailScreen extends StatelessWidget {
             children: [
               Text(
                 'Name: ${cost['name'] ?? 'N/A'}',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               Text('Amount: ${cost['amount'] ?? 'N/A'}'),
               Text('Status: ${cost['status'] ?? 'N/A'}'),

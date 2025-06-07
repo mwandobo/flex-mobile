@@ -22,7 +22,7 @@ class ResourceDetailScreen extends StatelessWidget {
             children: [
               Text(
                 'Name: ${resource['resource_name'] ?? 'N/A'}',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               Text('Resource Type: ${resource['resource_type_name'] ?? 'N/A'}'),
               Text(

@@ -53,7 +53,7 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('${widget.title}: ${widget.project['name'] ?? "N/A"}',
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.titleLarge),
             Text('Code: ${widget.project['formatted_code'] ?? "N/A"}'),
             Text('Status: ${widget.project['status'] ?? "N/A"}'),
             Text('Start Date: $formattedStartDate'),
@@ -83,7 +83,7 @@ class _ProjectCardDetailScreenState extends State<ProjectCardDetailScreen>
                 ),
               ),
             ] else ...[
-              Text('Indicators:', style: Theme.of(context).textTheme.headline6),
+              Text('Indicators:', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 10),
               Expanded(
                   child: IndicatorList(
