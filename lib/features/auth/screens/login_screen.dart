@@ -2,6 +2,9 @@ import 'package:flex_mobile/core/widgets/custom_text_field.dart';
 import 'package:flex_mobile/features/auth/service/auth_service.dart';
 import 'package:flex_mobile/features/home_screen.dart';
 import 'package:flutter/material.dart';
+import '../../../core/constants/colors.dart';
+import '../../../core/utils/error_handler.dart';
+import '../../../core/widgets/dialog/custom-error-dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,42 +20,41 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
   bool _rememberMe = false; // Make sure this is in your State class
-  String? _errorMessage;
 
   Future<void> _login() async {
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
     });
 
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    try {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+      final (success, message) = await _authService.login(email, password);
+      setState(() => _isLoading = false);
 
-    final success = await _authService.login(email, password);
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (success) {
-      // Navigate to HomeScreen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    } else {
+      if (success) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      } else {
+        CustomErrorDialog.showToast("Login Failed" , message, context);
+      }
+    } catch (e) {
       setState(() {
-        _errorMessage = 'Invalid email or password.';
+        _isLoading = false;
       });
+
+      CustomErrorDialog.showToast("Login Failed" ,  ErrorHandler.handle(e), context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0C55D7),
+      backgroundColor: AppColors.newPrimaryColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0C55D7),
+        backgroundColor: AppColors.newPrimaryColor,
         elevation: 0,
         centerTitle: true,
         title: Image.asset(
@@ -138,13 +140,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                        if (_errorMessage != null) ...[
-                          const SizedBox(height: 16),
-                          Text(
-                            _errorMessage!,
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                        ],
                       ],
                     ),
                   ),
@@ -154,10 +149,6 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         },
       ),
-
-
-
-
     );
   }
 }
