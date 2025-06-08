@@ -3,13 +3,15 @@ class ApiConstants {
 
   static const Map<String, dynamic> defaultHeaders = {
     "Content-Type": "application/json",
-    // Add other default headers (e.g., auth token)
   };
 
-  // API Endpoints (for reference, not hardcoded in ApiService)
-  static const String goalEndpoint = "/goal.php";
-  static const String interestEndpoint = "/interest.php";
-  static const String userEndpoint = "/user.php";
+  // API Endpoints
+  static const String loginEndpoint = "/login";
 
 
+  static const String get = 'GET';
+  static const String post = 'POST';
+  static const String put = 'PUT';
+  static const String delete = 'DELETE';
+  static const String patch = 'PATCH';
 }

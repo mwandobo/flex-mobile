@@ -6,8 +6,8 @@ class ApiService {
   final Dio _dio;
   String? _cachedToken;
   static const _publicPaths = ['/login', '/register'];
-
   static final ApiService _instance = ApiService._internal();
+
   factory ApiService() => _instance;
 
   ApiService._internal() : _dio = Dio() {
@@ -52,71 +52,19 @@ class ApiService {
     await prefs.remove('token');
   }
 
-  // Generic GET
-  Future<dynamic> get(
-      String path, {
-        Map<String, dynamic>? queryParams,
-        Map<String, dynamic>? customHeaders,
-      }) async {
+  Future<dynamic> request(
+    String method,
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? customHeaders,
+  }) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.request(
         path,
+        data: data,
         queryParameters: queryParams,
-        options: Options(headers: customHeaders),
-      );
-      return response.data;
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  // Generic POST
-  Future<dynamic> post(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? customHeaders,
-      }) async {
-    try {
-      final response = await _dio.post(
-        path,
-        data: data,
-        options: Options(headers: customHeaders),
-      );
-      return response.data;
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  // Generic PUT
-  Future<dynamic> put(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? customHeaders,
-      }) async {
-    try {
-      final response = await _dio.put(
-        path,
-        data: data,
-        options: Options(headers: customHeaders),
-      );
-      return response.data;
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  // Generic DELETE
-  Future<dynamic> delete(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? customHeaders,
-      }) async {
-    try {
-      final response = await _dio.delete(
-        path,
-        data: data,
-        options: Options(headers: customHeaders),
+        options: Options(method: method, headers: customHeaders),
       );
       return response.data;
     } on DioException catch (e) {
@@ -147,7 +95,6 @@ class ApiService {
       return ApiException(0, 'Network error: ${e.message}');
     }
   }
-
 }
 
 class ApiException implements Exception {

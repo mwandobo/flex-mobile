@@ -1,11 +1,12 @@
 
+import 'package:flex_mobile/core/api/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/api/api_service.dart';
 
 class AuthService {
 
   Future<(bool, String)> login(String email, String password) async {
-    final response = await ApiService().post('/login', data: {
+    final response = await ApiService().request(ApiConstants.post,ApiConstants.loginEndpoint, data: {
       'email': email,
       'password': password,
     });
