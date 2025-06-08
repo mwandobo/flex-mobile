@@ -39,6 +39,7 @@ dependencies:
     # Add these dependencies for HTTP requests and shared preferences
   http: ^1.2.2   # Update version to latest if needed
   shared_preferences: ^2.0.15 # Update version to latest if needed
+  dio: ^5.3.3
 
 dev_dependencies:
   flutter_test:
