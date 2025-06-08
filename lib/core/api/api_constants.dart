@@ -7,6 +7,7 @@ class ApiConstants {
 
   // API Endpoints
   static const String loginEndpoint = "/login";
+  static const String projectEndpoint = "/project";
 
 
   static const String get = 'GET';

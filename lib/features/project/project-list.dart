@@ -1,10 +1,14 @@
 import 'package:flex_mobile/core/constants/app.dart';
+import 'package:flex_mobile/features/project/model/project-model.dart';
 import 'package:flex_mobile/features/project/project-detail-screen.dart';
 import 'package:flex_mobile/features/project/project-item.dart';
 import 'package:flex_mobile/features/project/project-status-card-count.dart';
+import 'package:flex_mobile/features/project/services/project-service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../core/utils/error_handler.dart';
+import '../../core/widgets/dialog/custom-error-dialog.dart';
 import '../auth/service/auth_service.dart';
 
 class ProjectList extends StatefulWidget {
@@ -15,7 +19,9 @@ class ProjectList extends StatefulWidget {
 }
 
 class _ProjectListState extends State<ProjectList> {
-  List<dynamic> projects = [];
+  final ProjectService _projectService = ProjectService();
+
+  List<ProjectModel> projects = [];
   bool isLoading = true;
   String? errorMessage;
 
@@ -41,38 +47,33 @@ class _ProjectListState extends State<ProjectList> {
   }
 
   Future<void> _fetchProjects() async {
-    final url = Uri.parse('${AppConstants.baseUrl}project');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${await AuthService().getToken()}'
-        },
-      );
+      final (success, List<ProjectModel> _projects) = await _projectService.fetchProjects();
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+
+      if (success) {
         setState(() {
-          projects = data['data'];
+          projects = _projects;
           isLoading = false;
         });
       } else {
         setState(() {
           isLoading = false;
-          errorMessage = "Error: ${response.statusCode}";
+          errorMessage = "Error: Something went wrong}";
         });
       }
     } catch (e) {
       setState(() {
         isLoading = false;
-        errorMessage = "Error fetching Projects: $e";
+        errorMessage = "Error fetching Projects: ${ErrorHandler.handle(e)}";
       });
+      CustomErrorDialog.showToast("Failed" ,  ErrorHandler.handle(e), context);
+
     }
   }
 
   int _countProjectsByStatus(String status) {
-    return projects.where((project) => project['status'] == status).length;
+    return projects.where((project) => project.status == status).length;
   }
 
   @override
@@ -147,19 +148,18 @@ class _ProjectListState extends State<ProjectList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ProjectDetailScreen(projectId: project['id']),
+                              ProjectDetailScreen(projectId: project.id),
                         ),
                       );
                     },
                     child: ProjectListItem(
-                      name: project['name'] ?? "Default Name",
-                      formattedCode: project['code'] ?? "Default Code",
-                      status: project['status'] ?? "Default Status",
                       index: index + 1,
-                      startDate: project['formatted_start_date'] ?? "N/A",
-                      endDate: project['formatted_end_date'] ?? "N/A",
-                      statusColor: _getStatusColor(
-                          project['status'] ?? "Default Status"),
+                      name: project.name ?? "Default Name",
+                      formattedCode: project.code ?? "Default Code",
+                      status: project.status ?? "Default Status",
+                      startDate: project.startDate ?? "N/A",
+                      endDate: project.endDate ?? "N/A",
+                      statusColor: _getStatusColor(project.status ?? "Default Status"),
                     ),
                   );
                 },
