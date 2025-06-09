@@ -1,15 +1,12 @@
-import 'package:flex_mobile/core/constants/app.dart';
+import 'package:flex_mobile/core/constants/colors.dart';
 import 'package:flex_mobile/features/project/model/project-model.dart';
 import 'package:flex_mobile/features/project/project-detail-screen.dart';
 import 'package:flex_mobile/features/project/project-item.dart';
 import 'package:flex_mobile/features/project/project-status-card-count.dart';
 import 'package:flex_mobile/features/project/services/project-service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../../core/utils/error_handler.dart';
 import '../../core/widgets/dialog/custom-error-dialog.dart';
-import '../auth/service/auth_service.dart';
 
 class ProjectList extends StatefulWidget {
   const ProjectList({Key? key}) : super(key: key);
@@ -45,6 +42,34 @@ class _ProjectListState extends State<ProjectList> {
         return Colors.grey; // Default color in case of an unknown status
     }
   }
+
+  final List<Map<String, dynamic>> projectStatuses = [
+    {
+      'icon': Icons.folder,
+      'title': 'Total Projects',
+      'borderColor': AppColors.lightBlue,
+      'status': 'all',
+    },
+    {
+      'icon': Icons.check_circle,
+      'title': 'Completed',
+      'borderColor': AppColors.green,
+      'status': 'completed',
+    },
+    {
+      'icon': Icons.access_alarm,
+      'title': 'In Progress',
+      'borderColor': AppColors.amber,
+      'status': 'on_progress',
+    },
+    {
+      'icon': Icons.cancel,
+      'title': 'Overdue',
+      'borderColor': AppColors.red,
+      'status': 'overdue',
+    },
+  ];
+
 
   Future<void> _fetchProjects() async {
     try {
@@ -90,52 +115,22 @@ class _ProjectListState extends State<ProjectList> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "Projects",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ProjectStatusCardCount(
-                    title: 'Pending',
-                    borderColor: Colors.grey,
-                    count: _countProjectsByStatus('pending'),
-                  ),
-                  ProjectStatusCardCount(
-                    title: 'On Progress',
-                    borderColor: Colors.orange,
-                    count: _countProjectsByStatus('on_progress'),
-                  ),
-                  ProjectStatusCardCount(
-                    title: 'Completed',
-                    borderColor: Colors.green,
-                    count: _countProjectsByStatus('completed'),
-                  ),
-                  ProjectStatusCardCount(
-                    title: 'Closed',
-                    borderColor: Colors.blue,
-                    count: _countProjectsByStatus('closed'),
-                  ),
-                ],
-              ),
+                  children: projectStatuses.map((status) {
+                    return ProjectStatusCardCount(
+                      icon: status['icon'] is IconData ? status['icon'] as IconData : Icons.help_outline,
+                      title: status['title'],
+                      borderColor: status['borderColor'],
+                      count: _countProjectsByStatus(status['status']),
+                    );
+                  }).toList()              ),
             ),
             const SizedBox(height: 8),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.6,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
               child: ListView.builder(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

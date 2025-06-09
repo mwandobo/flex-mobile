@@ -4,6 +4,8 @@ import 'package:flex_mobile/features/auth/service/auth_service.dart';
 import 'package:flex_mobile/features/project/project-list.dart';
 import 'package:flutter/material.dart';
 
+import '../core/constants/colors.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -24,43 +26,118 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Screens for each tab
-  final List<Widget> _screens = [
-    const ProjectList(), // Example: Project List screen
-    const ProfileScreen()
+  final List<Map<String, dynamic>> _pages = [
+    {
+      'title': 'Projects',
+      'widget': const ProjectList(),
+    },
+    {
+      'title': 'Profile',
+      'widget': const ProfileScreen(),
+    },
   ];
+
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    required int index,
+  }) {
+    final isSelected = _currentIndex == index;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      child: Container(
+        // margin: const EdgeInsets.symmetric(vertical: 6), // Prevent overflow
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: isSelected ? Colors.blue : Colors.grey, size: 20),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: isSelected ? Colors.blue : Colors.grey,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.newPrimaryColor,
       appBar: AppBar(
-        title: const Text('Home'),
+        backgroundColor: AppColors.newPrimaryColor,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.white,
+            size: 32,
+          ),
+          onPressed: () {
+            // Add your drawer or action here
+          },
+        ),
+        title: Center(
+          child: Text(
+            _pages[_currentIndex]['title'],
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              color: Colors.white
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: _logout,
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout,
+              color: Colors.white,
+              size: 32),
           ),
         ],
       ),
-      body: _screens[_currentIndex], // Display the current screen
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Projects',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+
+      body: _pages[_currentIndex]['widget'],
+      bottomNavigationBar: BottomAppBar(
+        color: AppColors.newPrimaryColor, // Background for the entire bottom bar (optional)
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(
+              icon: Icons.list,
+              label: 'Projects',
+              index: 0,
+            ),
+            _buildNavItem(
+              icon: Icons.person,
+              label: 'Profile',
+              index: 1,
+            ),
+          ],
+        ),
       ),
+
     );
   }
 }
+
+
+

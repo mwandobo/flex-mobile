@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProjectStatusCardCount extends StatelessWidget {
+  final IconData? icon; // Changed from dynamic to IconData
   final String title;
   final Color borderColor;
   final int count;
 
   const ProjectStatusCardCount({
     Key? key,
+    this.icon, // No longer required
     required this.title,
     required this.borderColor,
     required this.count,
@@ -15,6 +17,8 @@ class ProjectStatusCardCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+        child: SizedBox(
+      height: 140,
       child: Card(
         elevation: 4, // Adds a shadow to elevate the card
         shape: RoundedRectangleBorder(
@@ -28,14 +32,15 @@ class ProjectStatusCardCount extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            gradient: LinearGradient(
-              colors: [
-                borderColor.withOpacity(0.1), // Subtle gradient effect
-                Colors.white,
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+            color: borderColor
+            // gradient: LinearGradient(
+            //   colors: [
+            //     borderColor.withOpacity(0.1), // Subtle gradient effect
+            //     Colors.white,
+            //   ],
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            // ),
           ),
           child: Padding(
             padding:
@@ -43,20 +48,29 @@ class ProjectStatusCardCount extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                if (icon != null) ...[
+                  // Only show if icon exists
+                  Icon(
+                    icon!,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  const SizedBox(height: 8),
+                ],
                 Text(
                   title,
-                  style: TextStyle(
-                    color: borderColor, // Title color matches border
+                  style: const TextStyle(
+                    color: Colors.white, // Title color matches border
                     fontSize: 12, // Reduced size
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   '$count',
-                  style: TextStyle(
-                    color: borderColor, // Count color matches border
+                  style: const TextStyle(
+                    color: Colors.white, // Count color matches border
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
@@ -66,6 +80,6 @@ class ProjectStatusCardCount extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }
