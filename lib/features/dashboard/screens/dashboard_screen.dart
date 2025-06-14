@@ -1,27 +1,26 @@
 import 'package:flex_mobile/core/constants/colors.dart';
-import 'package:flex_mobile/features/project/model/project-model.dart';
 import 'package:flex_mobile/features/project/project-status-card-count.dart';
-import 'package:flex_mobile/features/project/services/project-service.dart';
-import 'package:flex_mobile/features/project/widget/action-row.dart';
-import 'package:flex_mobile/features/project/widget/recent-activities.dart';
-import 'package:flex_mobile/features/project/widget/upcoming-deadline.dart';
-import 'package:flex_mobile/features/project/widget/welcome-header.dart';
+import 'package:flex_mobile/features/dashboard/widget/action-row.dart';
+import 'package:flex_mobile/features/dashboard/widget/recent-activities.dart';
+import 'package:flex_mobile/features/dashboard/widget/upcoming-deadline.dart';
+import 'package:flex_mobile/features/dashboard/widget/welcome-header.dart';
+import 'package:flex_mobile/features/projects/project_list/models/project_list_model.dart';
 import 'package:flutter/material.dart';
-import '../../core/utils/error_handler.dart';
-import '../../core/widgets/dialog/custom-error-dialog.dart';
+import '../../../core/widgets/custom_app_bar.dart';
+import '../../projects/project_list/services/project_list_service.dart';
 
-class ProjectDashboard extends StatefulWidget {
-  const ProjectDashboard({super.key});
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
-  _ProjectDashboardState createState() => _ProjectDashboardState();
+  _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _ProjectDashboardState extends State<ProjectDashboard> {
-  final ProjectService _projectService = ProjectService();
+class _DashboardScreenState extends State<DashboardScreen> {
+  // final ProjectService _projectService = ProjectService();
 
-  List<ProjectModel> projects = [];
-  bool isLoading = true;
+  List<ProjectListModel> projects = [];
+  bool isLoading = false;
   String? errorMessage;
 
   @override
@@ -51,49 +50,52 @@ class _ProjectDashboardState extends State<ProjectDashboard> {
       'title': 'Total Projects',
       'borderColor': AppColors.lightBlue,
       'status': 'all',
+      'route': '/projects'
     },
     {
       'icon': Icons.check_circle,
       'title': 'Completed',
       'borderColor': AppColors.green,
       'status': 'completed',
+      'route': '/projects'
     },
     {
       'icon': Icons.access_alarm,
       'title': 'In Progress',
       'borderColor': AppColors.amber,
       'status': 'on_progress',
+      'route': '/projects'
     },
     {
       'icon': Icons.cancel,
       'title': 'Overdue',
       'borderColor': AppColors.red,
       'status': 'overdue',
+      'route': '/projects'
     },
   ];
 
   Future<void> _fetchProjects() async {
-    try {
-      final (success, List<ProjectModel> _projects) =
-          await _projectService.fetchProjects();
+    final (success, fetchedProjects) =
+    await ProjectListService().fetchProjects();
 
-      if (success) {
-        setState(() {
-          projects = _projects;
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-          errorMessage = "Error: Something went wrong}";
-        });
-      }
-    } catch (e) {
+    print('dow get here $success');
+
+    if (success) {
       setState(() {
+        projects = fetchedProjects;
         isLoading = false;
-        errorMessage = "Error fetching Projects: ${ErrorHandler.handle(e)}";
       });
-      CustomErrorDialog.showToast("Failed", ErrorHandler.handle(e), context);
+    } else {
+
+      Navigator.pushReplacementNamed(context, '/login');
+
+
+
+      // setState(() {
+      //   isLoading = false;
+      //   errorMessage = "Error fetching projects.";
+      // });
     }
   }
 
@@ -111,7 +113,14 @@ class _ProjectDashboardState extends State<ProjectDashboard> {
       return Center(child: Text(errorMessage!));
     }
 
-    return SafeArea(
+    return
+      Scaffold(
+        backgroundColor: AppColors.newPrimaryColor,
+        appBar: CustomAppBar(title: 'Dashboard'),
+    body:
+
+
+      SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -131,6 +140,7 @@ class _ProjectDashboardState extends State<ProjectDashboard> {
                       title: status['title'],
                       borderColor: status['borderColor'],
                       count: _countProjectsByStatus(status['status']),
+                      route:status['route'] ,
                     );
                   }).toList()),
             ),
@@ -152,6 +162,7 @@ class _ProjectDashboardState extends State<ProjectDashboard> {
                 ))
           ],
         ),
+      ),
       ),
     );
   }

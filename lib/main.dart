@@ -1,7 +1,9 @@
-import 'package:flex_mobile/features/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/dashboard/screens/dashboard_screen.dart';
+import 'features/home._screen.dart';
+import 'features/projects/project_list/screens/project_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +21,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const CheckAuthScreen(),
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+        '/projects': (context) => const ProjectListScreen(),
+        '/login': (context) => const LoginScreen(),
+      },
+
     );
   }
 }

@@ -1,19 +1,20 @@
 import 'package:flex_mobile/features/auth/screens/login_screen.dart';
 import 'package:flex_mobile/features/auth/screens/profile_screen.dart';
 import 'package:flex_mobile/features/auth/service/auth_service.dart';
-import 'package:flex_mobile/features/project/project-dashboard.dart';
+import 'package:flex_mobile/features/dashboard/screens/dashboard_screen.dart';
+import 'package:flex_mobile/features/profile/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../core/constants/colors.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen1 extends StatefulWidget {
+  const HomeScreen1({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreen1State createState() => _HomeScreen1State();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreen1State extends State<HomeScreen1> {
   int _currentIndex = 0;
 
   Future<void> _logout() async {
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, dynamic>> _pages = [
     {
       'title': 'Project Dashboard',
-      'widget': const ProjectDashboard(),
+      'widget': const DashboardScreen(),
     },
     {
       'title': 'Profile',

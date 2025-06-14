@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ProjectListItem extends StatelessWidget {
+class ProjectListItemWidget extends StatelessWidget {
   final String name;
   final String formattedCode;
   final String status;
@@ -9,7 +9,7 @@ class ProjectListItem extends StatelessWidget {
   final int index;
   final Color statusColor; // New parameter to receive the color
 
-  const ProjectListItem({
+  const ProjectListItemWidget({
     Key? key,
     required this.name,
     required this.formattedCode,

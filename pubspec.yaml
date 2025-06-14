@@ -41,6 +41,10 @@ dependencies:
   shared_preferences: ^2.0.15 # Update version to latest if needed
   dio: ^5.3.3
   typicons_flutter: ^0.5.0
+  font_awesome_flutter: ^10.5.0  # Latest version as of 2023
+  flutter_localizations: # For built-in localization support
+    sdk: flutter
+  intl: ^0.19.0 # For date/number formatting
 
 dev_dependencies:
   flutter_test:
