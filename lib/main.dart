@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/auth/service/auth_wrapper_widget.dart';
 import 'features/dashboard/screens/dashboard_screen.dart';
 import 'features/home._screen.dart';
 import 'features/projects/project_list/screens/project_list_screen.dart';
@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Auth App',
+      title: 'Flex Projects',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CheckAuthScreen(),
+      home: const AuthWrapper(),
       routes: {
         '/home': (context) => const HomeScreen(),
         '/dashboard': (context) => const DashboardScreen(),
@@ -28,32 +28,6 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
       },
 
-    );
-  }
-}
-
-class CheckAuthScreen extends StatelessWidget {
-  const CheckAuthScreen({Key? key}) : super(key: key);
-
-  Future<bool> isUserLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isLoggedIn') ?? false;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: isUserLoggedIn(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        } else {
-          final isLoggedIn = snapshot.data ?? false;
-          return isLoggedIn ? const HomeScreen() : const LoginScreen();
-        }
-      },
     );
   }
 }

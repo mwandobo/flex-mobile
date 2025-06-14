@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:typicons_flutter/typicons_flutter.dart';
 
 class RecentActivitiesCard extends StatelessWidget {
   RecentActivitiesCard({super.key});
