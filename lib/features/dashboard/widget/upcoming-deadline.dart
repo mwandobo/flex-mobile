@@ -48,7 +48,7 @@ class UpcomingDeadlineCard extends StatelessWidget {
 
           /// Scrollable task list
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.12,
             child: ListView.separated(
               scrollDirection: Axis.vertical,
               itemCount: deadlineTasks.length,

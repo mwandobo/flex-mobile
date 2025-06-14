@@ -6,6 +6,8 @@ import 'package:flex_mobile/features/dashboard/widget/upcoming-deadline.dart';
 import 'package:flex_mobile/features/dashboard/widget/welcome-header.dart';
 import 'package:flex_mobile/features/projects/project_list/models/project_list_model.dart';
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_string.dart';
+import '../../../core/services/navigation_service.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../projects/project_list/services/project_list_service.dart';
 
@@ -78,24 +80,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _fetchProjects() async {
     final (success, fetchedProjects) =
     await ProjectListService().fetchProjects();
-
-    print('dow get here $success');
-
     if (success) {
       setState(() {
         projects = fetchedProjects;
         isLoading = false;
       });
     } else {
-
-      Navigator.pushReplacementNamed(context, '/login');
-
-
-
-      // setState(() {
-      //   isLoading = false;
-      //   errorMessage = "Error fetching projects.";
-      // });
+      setState(() {
+        isLoading = false;
+        errorMessage = "Error fetching projects.";
+      });
     }
   }
 
@@ -116,7 +110,60 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return
       Scaffold(
         backgroundColor: AppColors.newPrimaryColor,
-        appBar: CustomAppBar(title: 'Dashboard'),
+        appBar:
+        AppBar(
+          backgroundColor: AppColors.newPrimaryColor,
+          automaticallyImplyLeading: false,
+          title:  const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              'Dashboard',
+              style:TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppStrings.fontFamilyKent,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              // Space on the right side
+              child: Row(
+                children: [
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(horizontal: 4),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   child: IconButton(
+                  //     icon: const Icon(
+                  //       Icons.notifications,
+                  //       color: AppColors.primary,
+                  //       size: 32,
+                  //     ),
+                  //     onPressed: () {},
+                  //     splashRadius: 20,
+                  //   ),
+                  // ),
+
+                  IconButton(
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                      size: 32,
+                    ),
+                    onPressed: () {},
+                    splashRadius: 20,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+
     body:
 
 
@@ -151,13 +198,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     UpcomingDeadlineCard(),
                     const SizedBox(
-                      height: 16,
+                      height: 24,
                     ),
                     RecentActivitiesCard(),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ActionRow()
+                    // const SizedBox(
+                    //   height: 16,
+                    // ),
+                    // ActionRow()
                   ],
                 ))
           ],
