@@ -1,7 +1,7 @@
 import 'package:flex_mobile/features/auth/screens/login_screen.dart';
 import 'package:flex_mobile/features/auth/screens/profile_screen.dart';
 import 'package:flex_mobile/features/auth/service/auth_service.dart';
-import 'package:flex_mobile/features/project/project-list.dart';
+import 'package:flex_mobile/features/project/project-dashboard.dart';
 import 'package:flutter/material.dart';
 
 import '../core/constants/colors.dart';
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, dynamic>> _pages = [
     {
       'title': 'Projects',
-      'widget': const ProjectList(),
+      'widget': const ProjectDashboard(),
     },
     {
       'title': 'Profile',

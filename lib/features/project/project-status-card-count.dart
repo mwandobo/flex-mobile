@@ -20,7 +20,7 @@ class ProjectStatusCardCount extends StatelessWidget {
         child: SizedBox(
       height: 140,
       child: Card(
-        elevation: 4, // Adds a shadow to elevate the card
+          elevation: 4, // Adds a shadow to elevate the card
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
           side: BorderSide(

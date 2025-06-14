@@ -1,21 +1,20 @@
 import 'package:flex_mobile/core/constants/colors.dart';
 import 'package:flex_mobile/features/project/model/project-model.dart';
-import 'package:flex_mobile/features/project/project-detail-screen.dart';
-import 'package:flex_mobile/features/project/project-item.dart';
 import 'package:flex_mobile/features/project/project-status-card-count.dart';
 import 'package:flex_mobile/features/project/services/project-service.dart';
+import 'package:flex_mobile/features/project/widget/upcoming-deadline.dart';
 import 'package:flutter/material.dart';
 import '../../core/utils/error_handler.dart';
 import '../../core/widgets/dialog/custom-error-dialog.dart';
 
-class ProjectList extends StatefulWidget {
-  const ProjectList({Key? key}) : super(key: key);
+class ProjectDashboard extends StatefulWidget {
+  const ProjectDashboard({super.key});
 
   @override
-  _ProjectListState createState() => _ProjectListState();
+  _ProjectDashboardState createState() => _ProjectDashboardState();
 }
 
-class _ProjectListState extends State<ProjectList> {
+class _ProjectDashboardState extends State<ProjectDashboard> {
   final ProjectService _projectService = ProjectService();
 
   List<ProjectModel> projects = [];
@@ -70,11 +69,10 @@ class _ProjectListState extends State<ProjectList> {
     },
   ];
 
-
   Future<void> _fetchProjects() async {
     try {
-      final (success, List<ProjectModel> _projects) = await _projectService.fetchProjects();
-
+      final (success, List<ProjectModel> _projects) =
+          await _projectService.fetchProjects();
 
       if (success) {
         setState(() {
@@ -92,8 +90,7 @@ class _ProjectListState extends State<ProjectList> {
         isLoading = false;
         errorMessage = "Error fetching Projects: ${ErrorHandler.handle(e)}";
       });
-      CustomErrorDialog.showToast("Failed" ,  ErrorHandler.handle(e), context);
-
+      CustomErrorDialog.showToast("Failed", ErrorHandler.handle(e), context);
     }
   }
 
@@ -116,50 +113,29 @@ class _ProjectListState extends State<ProjectList> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: projectStatuses.map((status) {
                     return ProjectStatusCardCount(
-                      icon: status['icon'] is IconData ? status['icon'] as IconData : Icons.help_outline,
+                      icon: status['icon'] is IconData
+                          ? status['icon'] as IconData
+                          : Icons.help_outline,
                       title: status['title'],
                       borderColor: status['borderColor'],
                       count: _countProjectsByStatus(status['status']),
                     );
-                  }).toList()              ),
+                  }).toList()),
             ),
             const SizedBox(height: 8),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: ListView.builder(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                itemCount: projects.length,
-                itemBuilder: (context, index) {
-                  final project = projects[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ProjectDetailScreen(projectId: project.id),
-                        ),
-                      );
-                    },
-                    child: ProjectListItem(
-                      index: index + 1,
-                      name: project.name ?? "Default Name",
-                      formattedCode: project.code ?? "Default Code",
-                      status: project.status ?? "Default Status",
-                      startDate: project.startDate ?? "N/A",
-                      endDate: project.endDate ?? "N/A",
-                      statusColor: _getStatusColor(project.status ?? "Default Status"),
-                    ),
-                  );
-                },
-              ),
-            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+
+              child:UpcomingDeadlineCard() ,
+            )
+            // SizedBox(
+            //     height: MediaQuery.of(context).size.height * 0.16,
+            //     child: UpcomingDeadlineCard()),
           ],
         ),
       ),
