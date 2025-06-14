@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
 
-class UpcomingDeadlineCard extends StatelessWidget {
-  UpcomingDeadlineCard({super.key});
+class RecentActivitiesCard extends StatelessWidget {
+  RecentActivitiesCard({super.key});
 
   final List<Map<String, dynamic>> deadlineTasks = [
     {
@@ -28,6 +28,8 @@ class UpcomingDeadlineCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // elevation: 4,
+      // margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8)
@@ -37,10 +39,10 @@ class UpcomingDeadlineCard extends StatelessWidget {
         children: [
           /// Card title
           const Text(
-            "Upcoming Deadlines",
+            "Recent Activities",
             style: TextStyle(
               fontSize: 24,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
               color: Colors.black
             ),
           ),
@@ -75,10 +77,10 @@ class UpcomingDeadlineCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(
-            Typicons.pin,
+           Icon(
+            task['icon'],
             size: 20, // Adjust size as needed
-            color: Colors.red,
+            color: task['iconColor'] ?? Colors.blue,
 
           ),
           const SizedBox(width: 8),

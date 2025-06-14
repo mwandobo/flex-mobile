@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Map<String, dynamic>> _pages = [
     {
-      'title': 'Projects',
+      'title': 'Project Dashboard',
       'widget': const ProjectDashboard(),
     },
     {
@@ -116,24 +116,24 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       body: _pages[_currentIndex]['widget'],
-      bottomNavigationBar: BottomAppBar(
-        color: AppColors.newPrimaryColor, // Background for the entire bottom bar (optional)
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(
-              icon: Icons.list,
-              label: 'Projects',
-              index: 0,
-            ),
-            _buildNavItem(
-              icon: Icons.person,
-              label: 'Profile',
-              index: 1,
-            ),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: BottomAppBar(
+      //   color: AppColors.newPrimaryColor, // Background for the entire bottom bar (optional)
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //     children: [
+      //       _buildNavItem(
+      //         icon: Icons.list,
+      //         label: 'Projects',
+      //         index: 0,
+      //       ),
+      //       _buildNavItem(
+      //         icon: Icons.person,
+      //         label: 'Profile',
+      //         index: 1,
+      //       ),
+      //     ],
+      //   ),
+      // ),
 
     );
   }
