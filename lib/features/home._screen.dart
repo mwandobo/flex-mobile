@@ -47,9 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
 
-        bottomNavigationBar: CustomBottomBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
+        bottomNavigationBar: Material(
+          type: MaterialType.transparency,  // This removes all elevation effects
+          elevation: 0,  // Explicitly set to 0 for clarity
+          child: CustomBottomBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+          ),
         ),
       ),
     );

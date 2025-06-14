@@ -1,138 +1,65 @@
+import 'package:flex_mobile/core/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-void main() => runApp(MyApp());
+class CustomBottomBar extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTap;
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: MainScreen());
-  }
-}
-
-class MainScreen extends StatefulWidget {
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
-
-// Keys to manage separate navigation stacks
-  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-  ];
-
-  void _onItemTapped(int index) {
-    if (_selectedIndex == index) {
-// If tapped on the current tab again, pop to first route
-      _navigatorKeys[index].currentState!.popUntil((route) => route.isFirst);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-  }
+  const CustomBottomBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final isFirstRouteInCurrentTab =
-            !await _navigatorKeys[_selectedIndex].currentState!.maybePop();
-// If not in the root, pop the screen
-        if (!isFirstRouteInCurrentTab) return false;
-// If in root and back is pressed, exit the app
-        return true;
-      },
-      child: Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: [
-            _buildOffstageNavigator(0, HomeScreen()),
-            _buildOffstageNavigator(1, ProfileScreen()),
-            _buildOffstageNavigator(2, HelpScreen()),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-            BottomNavigationBarItem(icon: Icon(Icons.help), label: 'Help'),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: const BoxDecoration(
+        color: AppColors.newPrimaryColor, // transparent background
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildBarItem(icon: FontAwesomeIcons.house, label: 'home', index: 0),
+          _buildBarItem(
+              icon: FontAwesomeIcons.user, label: 'profile', index: 1),
+          _buildBarItem(icon: Icons.help, label: 'help', index: 2),
+        ],
       ),
     );
+
   }
 
-  Widget _buildOffstageNavigator(int index, Widget screen) {
-    return Offstage(
-      offstage: _selectedIndex != index,
-      child: Navigator(
-        key: _navigatorKeys[index],
-        onGenerateRoute: (routeSettings) {
-          return MaterialPageRoute(
-            builder: (context) => screen,
-          );
-        },
+  Widget _buildBarItem({
+    required IconData icon,
+    required String label,
+    required int index,
+  }) {
+    final isSelected = currentIndex == index;
+
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: Colors.white, // Always white
+            size: isSelected ? 26 : 22, // Slightly bigger when selected
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white, // Always white
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontSize: isSelected ? 14 : 12,
+            ),
+          ),
+        ],
       ),
-    );
-  }
-}
-
-// Example Home with internal navigation
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Dashboard')),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('Go to Project Management'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProjectManagementScreen()),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class ProjectManagementScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Project Management')),
-      body: Center(
-        child: Text('This is the Project Management Screen'),
-      ),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
-      body: Center(child: Text('Profile Screen')),
-    );
-  }
-}
-
-class HelpScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Help')),
-      body: Center(child: Text('Help Screen')),
     );
   }
 }
