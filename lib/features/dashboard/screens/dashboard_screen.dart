@@ -164,10 +164,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
 
-    body:
-
-
-      SafeArea(
+    body:  SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
